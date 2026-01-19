@@ -1,0 +1,27 @@
+## O2O base 中台项目结构规则（Project Structure Rules）
+---
+alwaysApply: true
+---
+
+本仓库采用微服务架构，整体结构以 `o2o-platform` 为公共平台根，`*-service` / 业务中心为具体业务服务模块：
+
+- **`o2o-platform`**：平台级公共能力与依赖
+  - `o2o-platform/project-common-domain`：**公共模型模块**，只放跨项目复用的 Entity / DTO / VO / Enum 等纯数据结构。
+  - `o2o-platform/project-common-feign-api`：**公共 Feign / OpenAPI 接口定义模块**，只定义 FeignClient 与请求/响应模型，不包含业务实现。
+  - `o2o-platform/project-common-service`：**公共业务能力实现模块**，封装可被多个服务复用的通用 Service / 领域逻辑。
+  - `o2o-platform/o2o-api-sdk`：**对外 SDK 模块**，为第三方合作方提供统一接入能力。
+  - `o2o-platform/project-dependencies`：**依赖管理模块（BOM）**，集中管理各框架/组件版本。
+
+
+- 业务服务模块统一分层与包命名：
+  - `controller`：REST 控制器，只做请求映射、参数校验、调用 Service，不写业务。
+  - `service`：业务接口，命名 `*Service`。
+  - `service.impl`：业务实现，命名 `*ServiceImpl`。
+  - `mapper`：MyBatis-Plus DAO 层，命名 `*Mapper`。
+  - `convert` 或 `mapstruct`：MapStruct 对象转换接口，命名 `*Convert`。
+  - `config`：配置类。
+
+- 禁止在以下位置写业务逻辑：
+  - Controller 中直接访问 `*Mapper` 或操作事务。
+  - `project-common-model` 中声明 `@Service`、`@Mapper`、`@Component` 或任何 Spring / MapStruct Bean。
+
