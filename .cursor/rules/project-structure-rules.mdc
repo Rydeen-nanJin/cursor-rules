@@ -1,7 +1,9 @@
-## O2O base 中台项目结构规则（Project Structure Rules）
 ---
+description: O2O base 中台项目结构规则
 alwaysApply: true
 ---
+
+## O2O base 中台项目结构规则（Project Structure Rules）
 
 本仓库采用微服务架构，整体结构以 `o2o-platform` 为公共平台根，`*-service` / 业务中心为具体业务服务模块：
 
@@ -11,7 +13,6 @@ alwaysApply: true
   - `o2o-platform/project-common-service`：**公共业务能力实现模块**，封装可被多个服务复用的通用 Service / 领域逻辑。
   - `o2o-platform/o2o-api-sdk`：**对外 SDK 模块**，为第三方合作方提供统一接入能力。
   - `o2o-platform/project-dependencies`：**依赖管理模块（BOM）**，集中管理各框架/组件版本。
-
 
 - 业务服务模块统一分层与包命名：
   - `controller`：REST 控制器，只做请求映射、参数校验、调用 Service，不写业务。
@@ -24,4 +25,3 @@ alwaysApply: true
 - 禁止在以下位置写业务逻辑：
   - Controller 中直接访问 `*Mapper` 或操作事务。
   - `project-common-model` 中声明 `@Service`、`@Mapper`、`@Component` 或任何 Spring / MapStruct Bean。
-
